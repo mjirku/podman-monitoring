@@ -1,0 +1,36 @@
+services:
+  podman-exporter:
+    image: quay.io/navidys/prometheus-podman-exporter:latest
+    container_name: podman-exporter
+    environment:
+      - CONTAINER_HOST=unix:///run/podman/podman.sock
+    volumes:
+      - /run/podman/podman.sock:/run/podman/podman.sock
+    ports:
+      - "9882:9882"
+    restart: always
+    privileged: true
+
+  prometheus:
+    image:  prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9090:9090"
+    restart: always
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+    restart: always
+
+volumes:
+  grafana_data:

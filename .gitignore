@@ -1,0 +1,20 @@
+
+## 📄 `.gitignore`
+```gitignore
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+*.log
+docker-data/
+grafana-data/
+prometheus-data/
+
+# Editor
+.vscode/
+.idea/
+
+# Temporary
+tmp/
+*.tmp
