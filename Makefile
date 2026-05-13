@@ -1,11 +1,13 @@
 .PHONY: up down logs
 
+COMPOSE := $(shell docker compose version >/dev/null 2>&1 && echo "docker compose" || echo "podman compose")
+
 up:
-	docker compose up -d
+	$(COMPOSE) up -d
 	bash socket_fix.sh
 
 down:
-	docker compose down
+	$(COMPOSE) down
 
 logs:
-	docker compose logs -f
+	$(COMPOSE) logs -f
