@@ -37,6 +37,19 @@ services:
     depends_on:
       - prometheus
 
+  caddy:
+    image: caddy:alpine
+    container_name: caddy
+    ports:
+      - "80:80"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+    restart: unless-stopped
+    depends_on:
+      - grafana
+      - prometheus
+      - podman-exporter
+
 volumes:
   grafana_data:
   prometheus_data:

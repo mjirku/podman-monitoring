@@ -43,13 +43,23 @@ Prometheus and Grafana run without privileges.
 
 After starting, the services are available at:
 
-- **Grafana** → [http://localhost:3000](http://localhost:3000)
-  **User:** `admin`
-  **Password:** `admin`
+| Service | URL |
+|---------|-----|
+| **Grafana** | [http://grafana.localhost](http://grafana.localhost) |
+| **Prometheus** | [http://prometheus.localhost](http://prometheus.localhost) |
+| **Podman Exporter** | [http://metrics.localhost/metrics](http://metrics.localhost/metrics) |
 
-- **Prometheus** → [http://localhost:9090](http://localhost:9090)
+Grafana default credentials — **User:** `admin` **Password:** `admin`
 
-- **Podman Exporter Metrics** → [http://localhost:9882/metrics](http://localhost:9882/metrics)
+> **Note:** `*.localhost` domains resolve automatically in Chrome and Firefox without any system changes.  
+> Safari users need to add entries to `/etc/hosts`:
+> ```
+> 127.0.0.1  grafana.localhost
+> 127.0.0.1  prometheus.localhost
+> 127.0.0.1  metrics.localhost
+> ```
+>
+> Direct port access still works: `localhost:3000`, `localhost:9090`, `localhost:9882`.
 
 
 ### 🛑 Stop the stack
@@ -106,6 +116,7 @@ This will enable `podman.socket` and set access to `/run/podman/podman.sock` in 
 
 .
 ├── docker-compose.yml          # Service definitions
+├── Caddyfile                   # Reverse proxy routing (*.localhost → services)
 ├── prometheus.yml              # Prometheus configuration
 ├── Makefile                    # Easy stack management
 ├── socket_fix.sh               # macOS: enable Podman socket in VM
