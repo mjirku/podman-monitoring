@@ -28,7 +28,13 @@ Prometheus and Grafana run without privileges.
    cd podman-monitoring
    ```
 
-2. Start the stack:
+2. (Optional) configure credentials:
+   ```bash
+   cp .env.example .env
+   # edit .env to set your Grafana admin password
+   ```
+
+3. Start the stack:
    ```bash
    make up
    ```
@@ -102,6 +108,9 @@ This will enable `podman.socket` and set access to `/run/podman/podman.sock` in 
 ├── docker-compose.yml          # Service definitions
 ├── prometheus.yml              # Prometheus configuration
 ├── Makefile                    # Easy stack management
+├── socket_fix.sh               # macOS: enable Podman socket in VM
+├── socket_fix.ps1              # Windows: enable Podman socket in VM
+├── .env.example                # Example environment variables
 ├── README.md                   # Documentation
 └── .gitignore                  # Git ignored files
 
@@ -110,3 +119,5 @@ This will enable `podman.socket` and set access to `/run/podman/podman.sock` in 
 - Project is designed for macOS and Windows with Podman Machine.
 - Podman Exporter runs with `privileged: true` due to socket access requirements.
 - If you don't want to use privileged mode, you need to modify permissions on `/run/podman/podman.sock` in the VM.
+- Grafana credentials default to `admin/admin`. Override by creating a `.env` file from `.env.example` before starting.
+- Prometheus data is persisted in a named Docker volume (`prometheus_data`) so metrics survive restarts.
